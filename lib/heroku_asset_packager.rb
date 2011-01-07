@@ -31,32 +31,35 @@ class HerokuAssetPackager
   end
   
   def render_js
-        file_name = @@regex_pattern.match(@env['REQUEST_PATH'])[1]
-        
-        file = "#{heroku_file_location}/#{file_name}_packaged.js"
-        [
-    			200,
-    			{
-    				'Cache-Control'  => 'public, max-age=86400',
-    				'Content-Length' => File.size(file).to_s,
-    				'Content-Type'   => 'text/javascript'
-    			},
-    			File.read(file)
-    		]
+    file_name = @@regex_pattern.match(@env['REQUEST_PATH'])[1]
+    file = "#{heroku_file_location}/#{file_name}_packaged.js"
+    [
+      200,
+      {
+        'Cache-Control'  => 'public, max-age=31536000',
+        'Expires' => CGI.rfc1123_date(Time.now + 1.year),
+        'Last-Modified' => CGI.rfc1123_date(File.mtime(file)),
+        'Content-Length' => File.size(file).to_s,
+        'Content-Type'   => 'text/javascript'
+      },
+      File.read(file)
+    ]
   end
   
   def render_css
     file_name = @@regex_pattern.match(@env['REQUEST_PATH'])[1]
     file = "#{heroku_file_location}/#{file_name}_packaged.css"
-        [
-    			200,
-    			{
-    				'Cache-Control'  => 'public, max-age=86400',
-    				'Content-Length' => File.size(file).to_s,
-    				'Content-Type'   => 'text/css'
-    			},
-    			File.read(file)
-    		]
+    [
+      200,
+      {
+        'Cache-Control'  => 'public, max-age=31536000',
+        'Expires' => CGI.rfc1123_date(Time.now + 1.year),
+        'Last-Modified' => CGI.rfc1123_date(File.mtime(file)),
+        'Content-Length' => File.size(file).to_s,
+        'Content-Type'   => 'text/javascript'
+      },
+      File.read(file)
+    ]
   end
   
   def heroku_file_location
