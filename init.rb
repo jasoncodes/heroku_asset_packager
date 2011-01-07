@@ -1,2 +1,2 @@
 require 'asset_packager_overrides'
-ActionController::Dispatcher.middleware.use HerokuAssetPackager
+Rails.application.config.middleware.use HerokuAssetPackager

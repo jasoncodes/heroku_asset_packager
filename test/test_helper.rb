@@ -6,4 +6,9 @@ require 'synthesis_assetpackager_stub.rb'
 Dir["lib/*.rb"].each {|r| require r}
 
 ENV['HEROKU'] = "true"
-RAILS_ROOT = "/"
+
+class Rails
+  def self.root
+    '/'
+  end
+end

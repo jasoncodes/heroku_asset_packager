@@ -60,6 +60,6 @@ class HerokuAssetPackager
   end
   
   def heroku_file_location
-    "#{RAILS_ROOT}/tmp/asset_packager"
+    "#{::Rails.root}/tmp/asset_packager"
   end
 end
