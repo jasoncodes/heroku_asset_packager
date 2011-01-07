@@ -1,6 +1,7 @@
 class HerokuAssetPackager
   @@regex_pattern = /\/\w+\/(.*)_packaged.*/i
-  
+  CONTENT_TYPES = {'.js' => 'text/javascript', '.css' => 'text/css'}
+
   def initialize_asset_packager
     override_asset_packager
     # Make dirs
@@ -35,13 +36,7 @@ class HerokuAssetPackager
     file = "#{heroku_file_location}/#{file_name}_packaged.js"
     [
       200,
-      {
-        'Cache-Control'  => 'public, max-age=31536000',
-        'Expires' => CGI.rfc1123_date(Time.now + 1.year),
-        'Last-Modified' => CGI.rfc1123_date(File.mtime(file)),
-        'Content-Length' => File.size(file).to_s,
-        'Content-Type'   => 'text/javascript'
-      },
+      headers_for(file),
       File.read(file)
     ]
   end
@@ -51,17 +46,21 @@ class HerokuAssetPackager
     file = "#{heroku_file_location}/#{file_name}_packaged.css"
     [
       200,
-      {
-        'Cache-Control'  => 'public, max-age=31536000',
-        'Expires' => CGI.rfc1123_date(Time.now + 1.year),
-        'Last-Modified' => CGI.rfc1123_date(File.mtime(file)),
-        'Content-Length' => File.size(file).to_s,
-        'Content-Type'   => 'text/javascript'
-      },
+      headers_for(file),
       File.read(file)
     ]
   end
-  
+
+  def headers_for(file)
+    {
+      'Cache-Control'  => 'public, max-age=31536000',
+      'Expires' => CGI.rfc1123_date(Time.now + 1.year),
+      'Last-Modified' => CGI.rfc1123_date(File.mtime(file)),
+      'Content-Length' => File.size(file).to_s,
+      'Content-Type'   => CONTENT_TYPES[File.extname(file)]
+    }
+  end
+
   def heroku_file_location
     "#{::Rails.root}/tmp/asset_packager"
   end
