@@ -14,10 +14,13 @@ So, heroku_asset_packager kind of monkey patches asset_packager and adds in some
 
 Why? Well because we can write to tmp/ Heroku doesn't complain and the world is good once again.
 
-Example
+Installation
 =======
 
-No configuration necessary aside from setting up asset_packager.
+You'll probably want something like the following in your Gemfile:
+
+    gem 'asset_packager', :git => 'git://github.com/brady8/asset_packager.git', :require => 'synthesis'
+    gem 'heroku_asset_packager', :git => 'git://github.com/jasoncodes/heroku_asset_packager.git'
 
 Tests
 =====
