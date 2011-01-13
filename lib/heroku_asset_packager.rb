@@ -24,15 +24,15 @@ class HerokuAssetPackager
   def call(env)
     @env = env
     if ENV["HEROKU"]
-      return render_css if env['REQUEST_PATH'] =~ /\/stylesheets\/.*_packaged.css/i
-      return render_js if env['REQUEST_PATH'] =~ /\/javascripts\/.*_packaged.js/i
+      return render_css if env['PATH_INFO'] =~ %r[^/stylesheets/.*_packaged.css$]i
+      return render_js if env['PATH_INFO'] =~ %r[^/javascripts/.*_packaged.js$]i
     end
     
     @app.call(env)
   end
   
   def render_js
-    file_name = @@regex_pattern.match(@env['REQUEST_PATH'])[1]
+    file_name = @@regex_pattern.match(@env['PATH_INFO'])[1]
     file = "#{heroku_file_location}/#{file_name}_packaged.js"
     [
       200,
@@ -42,7 +42,7 @@ class HerokuAssetPackager
   end
   
   def render_css
-    file_name = @@regex_pattern.match(@env['REQUEST_PATH'])[1]
+    file_name = @@regex_pattern.match(@env['PATH_INFO'])[1]
     file = "#{heroku_file_location}/#{file_name}_packaged.css"
     [
       200,

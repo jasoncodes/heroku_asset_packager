@@ -3,7 +3,7 @@ require 'mocha'
 
 class HerokuAssetPackagerTest < Test::Unit::TestCase
   def test_css_call
-    env = {"REQUEST_PATH" => "/stylesheets/test_packaged.css"}
+    env = {"PATH_INFO" => "/stylesheets/test_packaged.css"}
 
     app = mock()
     Synthesis::AssetPackage.expects(:build_all)
@@ -16,7 +16,7 @@ class HerokuAssetPackagerTest < Test::Unit::TestCase
   end
 
   def test_js_call
-    env = {"REQUEST_PATH" => "/javascripts/test_packaged.js"}
+    env = {"PATH_INFO" => "/javascripts/test_packaged.js"}
 
     app = mock()
     
@@ -30,7 +30,7 @@ class HerokuAssetPackagerTest < Test::Unit::TestCase
   end
   
   def test_regular_js_call
-    env = {"REQUEST_PATH" => "/javascripts/test.js"}
+    env = {"PATH_INFO" => "/javascripts/test.js"}
 
     app = mock()
     app.expects(:call).with(env)
@@ -42,7 +42,7 @@ class HerokuAssetPackagerTest < Test::Unit::TestCase
   end
   
   def test_regular_js_call
-    env = {"REQUEST_PATH" => "/stylesheets/test.css"}
+    env = {"PATH_INFO" => "/stylesheets/test.css"}
 
     app = mock()
     app.expects(:call).with(env)
