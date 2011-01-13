@@ -18,7 +18,6 @@ Example
 =======
 
 No configuration necessary aside from setting up asset_packager.
-When deploying to Heroku please ensure you set the HEROKU config value with the following: `heroku config:add HEROKU=true`
 
 Tests
 =====

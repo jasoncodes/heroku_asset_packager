@@ -5,10 +5,11 @@ require 'active_support/test_case'
 require 'synthesis_assetpackager_stub.rb'
 Dir["lib/*.rb"].each {|r| require r}
 
-ENV['HEROKU'] = "true"
-
-class Rails
+module Rails
   def self.root
     '/'
+  end
+  def self.env
+    'production'
   end
 end

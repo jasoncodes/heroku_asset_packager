@@ -18,14 +18,18 @@ class HerokuAssetPackager
     
   end
   
+  def enabled?
+    Synthesis::AssetPackage.merge_environments.include?(Rails.env)
+  end
+  
   def initialize(app)
     @app = app
-    initialize_asset_packager if ENV["HEROKU"]
+    initialize_asset_packager if enabled?
   end
   
   def call(env)
     @env = env
-    if ENV["HEROKU"]
+    if enabled?
       return render_css if env['PATH_INFO'] =~ %r[^/stylesheets/.*_packaged.css$]i
       return render_js if env['PATH_INFO'] =~ %r[^/javascripts/.*_packaged.js$]i
     end
