@@ -1,3 +1,5 @@
+require 'heroku_asset_packager/railtie'
+
 class HerokuAssetPackager
   @@regex_pattern = /\/\w+\/(.*)_packaged.*/i
   CONTENT_TYPES = {'.js' => 'text/javascript', '.css' => 'text/css'}
